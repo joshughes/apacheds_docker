@@ -6,4 +6,4 @@ RUN dpkg -i /tmp/installer.deb
 
 EXPOSE 10389 10636
 
-CMD /opt/apacheds-2.0.0-M17/bin/apacheds console default
+ENTRYPOINT /opt/apacheds-2.0.0-M17/bin/apacheds console default
