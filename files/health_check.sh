@@ -21,7 +21,7 @@ ERR_FILE="/tmp/healthcheck.err"
 # something. Else, we just do not return anything.
 #
 
-ldapsearch -h localhost -p 10389 -D "uid=admin,ou=system" -w secret -b "ou=system" -s one "(uid=admin)" dn > /dev/null 2>&1
+ldapsearch -h localhost -p 10389 -D "uid=admin,ou=system" -w ${ADMIN_PASSWORD:=secret} -b "ou=system" -s one "(uid=admin)" dn > /dev/null 2>&1
 
 rc=$?
 
