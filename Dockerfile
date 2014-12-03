@@ -1,9 +1,15 @@
 FROM dockerfile/java:oracle-java7
 
-ADD http://apache.tradebit.com/pub//directory/apacheds/dist/2.0.0-M17/apacheds-2.0.0-M17-amd64.deb /tmp/installer.deb
+RUN apt-get update && apt-get install -y xinetd ldap-utils
 
+ADD http://apache.tradebit.com/pub//directory/apacheds/dist/2.0.0-M19/apacheds-2.0.0-M19-amd64.deb /tmp/installer.deb
 RUN dpkg -i /tmp/installer.deb 
 
-EXPOSE 10389 10636
+ADD files/health_check.sh /root/health_check.sh
+ADD files/healthchk /etc/xinetd.d/healthchk
 
-ENTRYPOINT /opt/apacheds-2.0.0-M17/bin/apacheds console default
+RUN echo 'healthchk      11001/tcp' >> /etc/services
+
+EXPOSE 10389 10636 11001
+
+ENTRYPOINT /opt/apacheds-2.0.0-M19/bin/apacheds console default

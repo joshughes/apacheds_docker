@@ -1,0 +1,21 @@
+# default: on
+# description: healthchk
+service healthchk
+{
+        flags           = REUSE
+        socket_type     = stream
+        protocol        = tcp
+        port            = 11001
+        wait            = no
+        user            = root
+        server          = /root/health_check.sh
+        log_on_failure  += USERID
+        only_from       = 0.0.0.0/0
+        disable         = no
+
+        per_source      = UNLIMITED # Recently added (May 20, 2010)
+                                    # Prevents the system from complaining
+                                    # about having too many connections open from
+                                    # the same IP. More info:
+                                    # http://www.linuxfocus.org/English/November2000/article175.shtml
+}
