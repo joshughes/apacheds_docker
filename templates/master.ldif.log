@@ -1,0 +1,10 @@
+#!RESULT ERROR
+#!CONNECTION ldap://192.168.59.103:10389
+#!DATE 2014-12-16T15:22:43.690
+#!ERROR [LDAP: error code 20 - ATTRIBUTE_OR_VALUE_EXISTS: failed for MessageType : MODIFY_REQUEST Message ID : 106     Modify Request         Object : 'ads-serverid=ldapServer,ou=servers,ads-directoryserviceid=default,ou=config'             Modification[0]                 Operation :  add                 Modification ads-replReqHandler: org.apache.directory.server.ldap.replication.provider.SyncReplRequestHandlerorg.apache.directory.api.ldap.model.message.ModifyRequestImpl@bd557085: ERR_54 Cannot add a value which is already present : org.apache.directory.server.ldap.replication.provider.SyncReplRequestHandler]
+dn: ads-serverId=ldapServer,ou=servers,ads-directoryServiceId=default,ou=con
+ fig
+changetype: modify
+add: ads-replReqHandler
+ads-replReqHandler: org.apache.directory.server.ldap.replication.provider.Sy
+ ncReplRequestHandler

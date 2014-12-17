@@ -1,0 +1,4 @@
+dn: ads-serverId=ldapServer,ou=servers,ads-directoryServiceId=default,ou=config
+changetype: modify
+add: ads-replReqHandler
+ads-replReqHandler: org.apache.directory.server.ldap.replication.provider.SyncReplRequestHandler
