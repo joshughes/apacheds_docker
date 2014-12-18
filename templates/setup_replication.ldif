@@ -1,12 +1,12 @@
-dn: ads-replConsumerId=1,ou=replConsumers,ads-serverId=ldapServer,ou=servers,ads-directoryServiceId=default,ou=config
+dn: ads-replConsumerId=${REPLICA_HOST}_${REPLICA_PORT},ou=replConsumers,ads-serverId=ldapServer,ou=servers,ads-directoryServiceId=default,ou=config
 objectClass: ads-base
 objectClass: ads-replConsumer
 objectClass: top
 ads-replAliasDerefMode: never
 ads-replAttributes: *
 ads-replConsumerId: 1
-ads-replProvHostName: ${MASTER_HOST}
-ads-replProvPort: ${MASTER_PORT}
+ads-replProvHostName: ${REPLICA_HOST}
+ads-replProvPort: ${REPLICA_PORT}
 ads-replRefreshInterval: 60000
 ads-replRefreshNPersist: true
 ads-replSearchFilter: (objectClass=*)
