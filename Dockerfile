@@ -18,3 +18,5 @@ COPY scripts/start.sh /root/start.sh
 RUN echo 'healthchk      11001/tcp' >> /etc/services
 
 EXPOSE 10389 10636 11001
+
+ENTRYPOINT ["/root/start.sh"]

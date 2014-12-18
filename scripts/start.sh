@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 /etc/init.d/apacheds-2.0.0-M19-default start
 /etc/init.d/xinetd start
 
@@ -40,3 +40,4 @@ if [ ! -n "${REPLICATION}" ]; then
 fi
 
 /etc/init.d/apacheds-2.0.0-M19-default stop
+/etc/init.d/apacheds-2.0.0-M19-default console
