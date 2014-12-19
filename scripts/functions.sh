@@ -37,24 +37,40 @@ find_marathon_replicas ()
     echo "Trying to get config from MARATHON_HOST ${MARATHON_HOST} and APP ${REPLICA_APP}"
     REPLICA_HOSTS=`curl -s ${MARATHON_HOST}/v2/apps/${REPLICA_APP}/tasks | jq -r '.tasks[] | .host'`
     REPLICA_PORTS=`curl -s ${MARATHON_HOST}/v2/apps/${REPLICA_APP}/tasks | jq -r '.tasks[] | .ports[0]'`
-    echo "$REPLICA_HOSTS" > /root/REPLICA_HOSTS
-    echo "$REPLICA_PORTS" > /root/REPLICA_PORTS
+  fi
+}
+
+add_replica()
+{
+  echo "Adding replica $1 $2"
+  export REPLICA_HOST=${1}
+  export REPLICA_PORT=${2}
+  TEMPLATE='setup_replication'
+  REPLCATION_SEARCH="ads-replConsumerId=${1}:${2}"
+  send_ldif
+}
+
+delete_replica()
+{
+  REPLCATION_SEARCH="ads-replConsumerId=${1}"
+  test_replication
+  if [ -n "${REPLICATION}" ]; then
+    DN=`echo ${REPLICATION##*:} | tr -d ' '`
+    ldapdelete "${DN}" -D "uid=admin,ou=system" -w ${ADMIN_PASSWORD}
   fi
 }
 
 setup_replication ()
 {
   find_marathon_replicas
+  echo "$REPLICA_HOSTS" > /root/REPLICA_HOSTS
+  echo "$REPLICA_PORTS" > /root/REPLICA_PORTS
 
   REPLICA_HOSTS_ARRAY=($REPLICA_HOSTS)
   REPLICA_PORTS_ARRAY=($REPLICA_PORTS)
 
   for ((i=0;i<${#REPLICA_HOSTS_ARRAY[@]};++i)); do
-      echo "replications ${REPLICA_HOSTS_ARRAY[i]} ${REPLICA_PORTS_ARRAY[i]}"
-      export REPLICA_HOST=${REPLICA_HOSTS_ARRAY[i]}
-      export REPLICA_PORT=${REPLICA_PORTS_ARRAY[i]}
-      TEMPLATE='setup_replication'
-      REPLCATION_SEARCH="ads-replProvHostName=${REPLICA_HOST}"
-      send_ldif
+    echo "replications ${REPLICA_HOSTS_ARRAY[i]} ${REPLICA_PORTS_ARRAY[i]}"
+    add_replica "${REPLICA_HOSTS_ARRAY[i]}" "${REPLICA_PORTS_ARRAY[i]}"
   done
 }

@@ -1,4 +1,4 @@
-dn: ads-replConsumerId=${REPLICA_HOST}_${REPLICA_PORT},ou=replConsumers,ads-serverId=ldapServer,ou=servers,ads-directoryServiceId=default,ou=config
+dn: ads-replConsumerId=${REPLICA_HOST}:${REPLICA_PORT},ou=replConsumers,ads-serverId=ldapServer,ou=servers,ads-directoryServiceId=default,ou=config
 objectClass: ads-base
 objectClass: ads-replConsumer
 objectClass: top

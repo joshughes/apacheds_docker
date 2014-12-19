@@ -15,6 +15,7 @@ COPY templates/admin_password.ldif /templates/admin_password.ldif
 
 COPY scripts/start.sh /root/start.sh
 COPY scripts/functions.sh /root/functions.sh
+COPY scripts/replica_check.sh /root/replica_check.sh
 
 RUN echo 'healthchk      11001/tcp' >> /etc/services
 
