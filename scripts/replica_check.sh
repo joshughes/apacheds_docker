@@ -38,15 +38,16 @@ do
   echo "Start Checking" >> /tmp/test.log
   find_marathon_replicas
 
-  REPLICA_HOSTS_ARRAY=($REPLICA_HOSTS)
-  REPLICA_PORTS_ARRAY=($REPLICA_PORTS)
+  REPLICA_HOSTS_ARRAY=($(cat /root/CURRENT_REPLICA_HOSTS))
+  REPLICA_PORTS_ARRAY=($(cat /root/CURRENT_REPLICA_PORTS))
 
-  KNOWN_HOSTS=($(cat /root/REPLICA_HOSTS))
-  KNOWN_PORTS=($(cat /root/REPLICA_PORTS))
+  KNOWN_HOSTS=($(cat /root/KNOWN_REPLICA_HOSTS))
+  KNOWN_PORTS=($(cat /root/KNOWN_REPLICA_PORTS))
 
   RHP=($(join_arrays REPLICA_HOSTS_ARRAY[@] REPLICA_PORTS_ARRAY[@]))
   KHP=($(join_arrays KNOWN_HOSTS[@] KNOWN_PORTS[@]))
-
+  echo "RHP ${RHP[@]}" >> /tmp/test.log
+  echo "KHP ${KHP[@]}" >> /tmp/test.log
 
   SORT_RH=(`echo ${RHP[@]} |  tr ' ' '\n' | sort`)
   SORT_NH=(`echo ${KHP[@]} |  tr ' ' '\n' | sort`)
@@ -55,13 +56,15 @@ do
   ADD_REPLICAS=($(subtract_arrays SORT_RH[@] SORT_NH[@]))
 
   for i in "${ADD_REPLICAS[@]}"; do
-    local HOST=${i%:*}
-    local PORT=${i#*:}
+    HOST=${i%:*}
+    PORT=${i#*:}
     add_replica "${HOST}" "${PORT}"
+    known_replicas
   done
 
   for i in "${DELETE_REPLICAS[@]}"; do
     delete_replica "${i}"
+    known_replicas
   done
 
   echo "DELETE ${DELETE_REPLICAS[@]}" >> /tmp/test.log

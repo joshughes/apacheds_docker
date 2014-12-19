@@ -33,11 +33,16 @@ enable_replication ()
 
 find_marathon_replicas ()
 {
-  if [ -n "${MARATHON_HOST}" ] && [ -n "${REPLICA_APP}" ] && [ ! -n "${REPLICA_HOSTS}" ] || [ ! -n "${REPLICA_PORTS}" ]; then
+  echo "Checking Marathon "
+  local TEST=`curl -s ${MARATHON_HOST}/v2/apps/${REPLICA_APP}/tasks`
+  echo "Test is $TEST"
+  if [ -n "${MARATHON_HOST}" ] && [ -n "${REPLICA_APP}" ]; then
     echo "Trying to get config from MARATHON_HOST ${MARATHON_HOST} and APP ${REPLICA_APP}"
-    REPLICA_HOSTS=`curl -s ${MARATHON_HOST}/v2/apps/${REPLICA_APP}/tasks | jq -r '.tasks[] | .host'`
-    REPLICA_PORTS=`curl -s ${MARATHON_HOST}/v2/apps/${REPLICA_APP}/tasks | jq -r '.tasks[] | .ports[0]'`
+    export REPLICA_HOSTS=`curl -s ${MARATHON_HOST}/v2/apps/${REPLICA_APP}/tasks | jq -r '.tasks[] | .host'`
+    export REPLICA_PORTS=`curl -s ${MARATHON_HOST}/v2/apps/${REPLICA_APP}/tasks | jq -r '.tasks[] | .ports[0]'`
   fi
+  echo "$REPLICA_HOSTS" > /root/CURRENT_REPLICA_HOSTS
+  echo "$REPLICA_PORTS" > /root/CURRENT_REPLICA_PORTS
 }
 
 add_replica()
@@ -55,16 +60,21 @@ delete_replica()
   REPLCATION_SEARCH="ads-replConsumerId=${1}"
   test_replication
   if [ -n "${REPLICATION}" ]; then
-    DN=`echo ${REPLICATION##*:} | tr -d ' '`
-    ldapdelete "${DN}" -D "uid=admin,ou=system" -w ${ADMIN_PASSWORD}
+    DN=`echo ${REPLICATION##dn:} | tr -d ' '`
+    ldapdelete "${DN}" -p 10389 -h localhost -D "uid=admin,ou=system" -w ${ADMIN_PASSWORD}
   fi
+}
+
+known_replicas()
+{
+  cp /root/CURRENT_REPLICA_HOSTS /root/KNOWN_REPLICA_HOSTS
+  cp /root/CURRENT_REPLICA_PORTS /root/KNOWN_REPLICA_PORTS
 }
 
 setup_replication ()
 {
   find_marathon_replicas
-  echo "$REPLICA_HOSTS" > /root/REPLICA_HOSTS
-  echo "$REPLICA_PORTS" > /root/REPLICA_PORTS
+  known_replicas
 
   REPLICA_HOSTS_ARRAY=($REPLICA_HOSTS)
   REPLICA_PORTS_ARRAY=($REPLICA_PORTS)

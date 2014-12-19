@@ -17,7 +17,7 @@ enable_replication
 setup_replication
 
 
-/bin/bash /root/replica_check.sh &
+nohup /root/replica_check.sh 0<&- &> /tmp/some_log.log &
 
 
 /etc/init.d/apacheds-2.0.0-M19-default stop
