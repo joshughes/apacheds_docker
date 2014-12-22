@@ -1,0 +1,141 @@
+version: 1
+
+dn: ads-partitionId=${DOMAIN_NAME},ou=partitions,ads-directoryServiceId=default,ou=
+ config
+objectclass: ads-jdbmPartition
+objectclass: ads-partition
+objectclass: ads-base
+objectclass: top
+ads-partitionid: ${DOMAIN_NAME}
+ads-partitionsuffix: dc=${DOMAIN_NAME},dc=${DOMAIN_SUFFIX}
+ads-contextentry:: ZG46IGRjPWV4YW1wbGUsZGM9Y29tCmRjOiBleGFtcGxlCm9iamVjdGNsY
+ XNzOiBkb21haW4Kb2JqZWN0Y2xhc3M6IHRvcAoK
+ads-enabled: TRUE
+ads-jdbmpartitionoptimizerenabled: TRUE
+ads-partitioncachesize: 10000
+ads-partitionsynconwrite: TRUE
+
+dn: ou=indexes,ads-partitionId=${DOMAIN_NAME},ou=partitions,ads-directoryServiceId=
+ default,ou=config
+objectclass: top
+objectclass: organizationalUnit
+ou: indexes
+
+dn: ads-indexAttributeId=uid,ou=indexes,ads-partitionId=${DOMAIN_NAME},ou=partition
+ s,ads-directoryServiceId=default,ou=config
+objectclass: top
+objectclass: ads-base
+objectclass: ads-jdbmIndex
+objectclass: ads-index
+ads-indexattributeid: uid
+ads-indexhasreverse: FALSE
+ads-enabled: TRUE
+ads-indexcachesize: 100
+
+
+dn: ads-indexAttributeId=apacheRdn,ou=indexes,ads-partitionId=${DOMAIN_NAME},ou=par
+ titions,ads-directoryServiceId=default,ou=config
+objectclass: top
+objectclass: ads-base
+objectclass: ads-jdbmIndex
+objectclass: ads-index
+ads-indexattributeid: apacheRdn
+ads-indexhasreverse: TRUE
+ads-enabled: TRUE
+ads-indexcachesize: 100
+
+
+
+dn: ads-indexAttributeId=apacheSubAlias,ou=indexes,ads-partitionId=${DOMAIN_NAME},o
+ u=partitions,ads-directoryServiceId=default,ou=config
+objectclass: top
+objectclass: ads-base
+objectclass: ads-jdbmIndex
+objectclass: ads-index
+ads-indexattributeid: apacheSubAlias
+ads-indexhasreverse: FALSE
+ads-enabled: TRUE
+ads-indexcachesize: 100
+
+
+
+
+dn: ads-indexAttributeId=objectClass,ou=indexes,ads-partitionId=${DOMAIN_NAME},ou=p
+ artitions,ads-directoryServiceId=default,ou=config
+objectclass: top
+objectclass: ads-base
+objectclass: ads-jdbmIndex
+objectclass: ads-index
+ads-indexattributeid: objectClass
+ads-indexhasreverse: FALSE
+ads-enabled: TRUE
+ads-indexcachesize: 100
+
+
+dn: ads-indexAttributeId=dc,ou=indexes,ads-partitionId=${DOMAIN_NAME},ou=partitions
+ ,ads-directoryServiceId=default,ou=config
+objectclass: top
+objectclass: ads-base
+objectclass: ads-jdbmIndex
+objectclass: ads-index
+ads-indexattributeid: dc
+ads-indexhasreverse: FALSE
+ads-enabled: TRUE
+ads-indexcachesize: 100
+
+
+dn: ads-indexAttributeId=entryCSN,ou=indexes,ads-partitionId=${DOMAIN_NAME},ou=part
+ itions,ads-directoryServiceId=default,ou=config
+objectclass: top
+objectclass: ads-base
+objectclass: ads-jdbmIndex
+objectclass: ads-index
+ads-indexattributeid: entryCSN
+ads-indexhasreverse: FALSE
+ads-enabled: TRUE
+ads-indexcachesize: 100
+
+dn: ads-indexAttributeId=apacheOneAlias,ou=indexes,ads-partitionId=${DOMAIN_NAME},o
+ u=partitions,ads-directoryServiceId=default,ou=config
+objectclass: top
+objectclass: ads-base
+objectclass: ads-jdbmIndex
+objectclass: ads-index
+ads-indexattributeid: apacheOneAlias
+ads-indexhasreverse: FALSE
+ads-enabled: TRUE
+ads-indexcachesize: 100
+
+dn: ads-indexAttributeId=apacheAlias,ou=indexes,ads-partitionId=${DOMAIN_NAME},ou=p
+ artitions,ads-directoryServiceId=default,ou=config
+objectclass: top
+objectclass: ads-base
+objectclass: ads-jdbmIndex
+objectclass: ads-index
+ads-indexattributeid: apacheAlias
+ads-indexhasreverse: FALSE
+ads-enabled: TRUE
+ads-indexcachesize: 100
+
+dn: ads-indexAttributeId=ou,ou=indexes,ads-partitionId=${DOMAIN_NAME},ou=partitions
+ ,ads-directoryServiceId=default,ou=config
+objectclass: top
+objectclass: ads-base
+objectclass: ads-jdbmIndex
+objectclass: ads-index
+ads-indexattributeid: ou
+ads-indexhasreverse: FALSE
+ads-enabled: TRUE
+ads-indexcachesize: 100
+
+dn: ads-indexAttributeId=apachePresence,ou=indexes,ads-partitionId=${DOMAIN_NAME},o
+ u=partitions,ads-directoryServiceId=default,ou=config
+objectclass: top
+objectclass: ads-base
+objectclass: ads-jdbmIndex
+objectclass: ads-index
+ads-indexattributeid: apachePresence
+ads-indexhasreverse: FALSE
+ads-enabled: TRUE
+ads-indexcachesize: 100
+

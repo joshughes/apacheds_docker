@@ -15,4 +15,4 @@ ads-replSearchSizeLimit: 0
 ads-replSearchTimeOut: 0
 ads-replUserDn: uid=admin,ou=system
 ads-replUserPassword: ${ADMIN_PASSWORD}
-ads-searchBaseDN: dc=example,dc=com
+ads-searchBaseDN: dc=${DOMAIN_NAME},dc=${DOMAIN_SUFFIX}

@@ -13,11 +13,24 @@ else
   export ADMIN_PASSWORD='secret'
 fi
 
+if [ -n "${DOMAIN_NAME}" ] && [ -n "${DOMAIN_SUFFIX}" ]; then
+  envsubst < "/templates/partition.ldif" > "/tmp/partition.ldif"
+  ldapmodify -c -a -f /tmp/partition.ldif -h localhost -p 10389 -D "uid=admin,ou=system" -w ${ADMIN_PASSWORD}
+  /etc/init.d/apacheds-2.0.0-M19-default stop
+  /etc/init.d/apacheds-2.0.0-M19-default start
+  sleep 10
+  envsubst < "/templates/top_domain.ldif" > "/tmp/top_domain.ldif"
+  ldapmodify -c -a -f /tmp/top_domain.ldif -h localhost -p 10389 -D "uid=admin,ou=system" -w ${ADMIN_PASSWORD}
+else
+  export DOMAIN_NAME="example"
+  export DOMAIN_SUFFIX="com"
+fi
+
 enable_replication
 setup_replication
 
 
-nohup /root/replica_check.sh 0<&- &> /tmp/some_log.log &
+nohup /root/replica_check.sh 0<&- &> /tmp/replica_check.log &
 
 
 /etc/init.d/apacheds-2.0.0-M19-default stop

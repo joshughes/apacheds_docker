@@ -35,7 +35,7 @@ join_arrays()
 while true
 do
   sleep 60
-  echo "Start Checking" >> /tmp/test.log
+  echo "Start Checking" 
   find_marathon_replicas
 
   REPLICA_HOSTS_ARRAY=($(cat /root/CURRENT_REPLICA_HOSTS))
@@ -46,8 +46,8 @@ do
 
   RHP=($(join_arrays REPLICA_HOSTS_ARRAY[@] REPLICA_PORTS_ARRAY[@]))
   KHP=($(join_arrays KNOWN_HOSTS[@] KNOWN_PORTS[@]))
-  echo "RHP ${RHP[@]}" >> /tmp/test.log
-  echo "KHP ${KHP[@]}" >> /tmp/test.log
+  echo "RHP ${RHP[@]}" 
+  echo "KHP ${KHP[@]}" 
 
   SORT_RH=(`echo ${RHP[@]} |  tr ' ' '\n' | sort`)
   SORT_NH=(`echo ${KHP[@]} |  tr ' ' '\n' | sort`)
@@ -67,7 +67,7 @@ do
     known_replicas
   done
 
-  echo "DELETE ${DELETE_REPLICAS[@]}" >> /tmp/test.log
-  echo "ADD ${ADD_REPLICAS[@]}" >> /tmp/test.log
+  echo "DELETE ${DELETE_REPLICAS[@]}" 
+  echo "ADD ${ADD_REPLICAS[@]}" 
 
 done

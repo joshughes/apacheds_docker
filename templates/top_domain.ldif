@@ -1,0 +1,16 @@
+version: 1
+
+dn: dc=${DOMAIN_NAME},dc=${DOMAIN_SUFFIX}
+objectclass: top
+objectclass: domain
+dc: ${DOMAIN_NAME}
+
+dn: ou=groups,dc=${DOMAIN_NAME},dc=${DOMAIN_SUFFIX}
+objectClass: top
+objectClass: organizationalUnit
+ou: groups
+
+dn: ou=users,dc=${DOMAIN_NAME},dc=${DOMAIN_SUFFIX}
+objectClass: top
+objectClass: organizationalUnit
+ou: users
