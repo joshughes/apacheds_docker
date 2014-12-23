@@ -1,0 +1,3 @@
+dn: cn=nis,ou=schema
+changetype: modify
+delete: m-disabled
