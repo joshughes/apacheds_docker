@@ -63,6 +63,7 @@ delete_replica()
     DN=`echo ${REPLICATION##dn:} | tr -d ' '`
     ldapdelete "${DN}" -p 10389 -h localhost -D "uid=admin,ou=system" -w ${ADMIN_PASSWORD}
   fi
+  sleep 120 #Sleep here to try to avoid race condition with new replica coming up and needing to replicate
 }
 
 known_replicas()
@@ -75,6 +76,14 @@ setup_replication ()
 {
   find_marathon_replicas
   known_replicas
+
+  if [ ! -n "${RELICA_USER}"]; then
+    export RELICA_USER="admin"
+  fi
+
+  if [ ! -n "$REPLICA_PASSWORD"]; then
+    export REPLICA_PASSWORD="${ADMIN_PASSWORD}"
+  fi
 
   REPLICA_HOSTS_ARRAY=($REPLICA_HOSTS)
   REPLICA_PORTS_ARRAY=($REPLICA_PORTS)

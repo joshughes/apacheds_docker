@@ -34,7 +34,6 @@ join_arrays()
 
 while true
 do
-  sleep 60
   echo "Start Checking" 
   find_marathon_replicas
 
@@ -55,6 +54,11 @@ do
   DELETE_REPLICAS=($(subtract_arrays SORT_NH[@] SORT_RH[@]))
   ADD_REPLICAS=($(subtract_arrays SORT_RH[@] SORT_NH[@]))
 
+  for i in "${DELETE_REPLICAS[@]}"; do
+    delete_replica "${i}"
+    known_replicas
+  done
+
   for i in "${ADD_REPLICAS[@]}"; do
     HOST=${i%:*}
     PORT=${i#*:}
@@ -62,12 +66,9 @@ do
     known_replicas
   done
 
-  for i in "${DELETE_REPLICAS[@]}"; do
-    delete_replica "${i}"
-    known_replicas
-  done
-
   echo "DELETE ${DELETE_REPLICAS[@]}" 
   echo "ADD ${ADD_REPLICAS[@]}" 
+
+  sleep 60
 
 done

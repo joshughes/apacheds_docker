@@ -1,0 +1,9 @@
+dn: ads-directoryServiceId=default,ou=config
+changetype: modify
+replace: ads-dsAccessControlEnabled
+ads-dsAccessControlEnabled: TRUE
+
+dn: ads-directoryServiceId=default,ou=config
+changetype: modify
+replace: ads-dsallowanonymousaccess
+ads-dsallowanonymousaccess: FALSE

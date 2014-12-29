@@ -13,6 +13,6 @@ ads-replSearchFilter: (objectClass=*)
 ads-replSearchScope: sub
 ads-replSearchSizeLimit: 0
 ads-replSearchTimeOut: 0
-ads-replUserDn: uid=admin,ou=system
-ads-replUserPassword: ${ADMIN_PASSWORD}
+ads-replUserDn: uid=${REPLICA_USER},ou=system
+ads-replUserPassword: ${REPLICA_PASSWORD}
 ads-searchBaseDN: dc=${DOMAIN_NAME},dc=${DOMAIN_SUFFIX}

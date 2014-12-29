@@ -17,6 +17,14 @@ if [ -n "${NIS_ENABLED}" ]; then
   ldapmodify -c -a -f /ldifs/enable_nis.ldif -h localhost -p 10389 -D "uid=admin,ou=system" -w ${ADMIN_PASSWORD}
 fi
 
+if [ -n "${ACCESS_CONTROL_ENABLED}" ]; then
+  ldapmodify -c -a -f /ldifs/access.ldif -h localhost -p 10389 -D "uid=admin,ou=system" -w ${ADMIN_PASSWORD}
+  /etc/init.d/apacheds-2.0.0-M19-default stop
+  /etc/init.d/apacheds-2.0.0-M19-default start
+  sleep 10
+fi
+
+
 if [ -n "${DOMAIN_NAME}" ] && [ -n "${DOMAIN_SUFFIX}" ]; then
   envsubst < "/templates/partition.ldif" > "/tmp/partition.ldif"
   ldapmodify -c -a -f /tmp/partition.ldif -h localhost -p 10389 -D "uid=admin,ou=system" -w ${ADMIN_PASSWORD}
@@ -30,6 +38,11 @@ if [ -n "${DOMAIN_NAME}" ] && [ -n "${DOMAIN_SUFFIX}" ]; then
 else
   export DOMAIN_NAME="example"
   export DOMAIN_SUFFIX="com"
+fi
+
+if [ -n "${ACCESS_CONTROL_ENABLED}" ]; then
+  envsubst < "/templates/access_config.ldif" > "/tmp/access_config.ldif"
+  ldapmodify -c -a -f /tmp/access_config.ldif -h localhost -p 10389 -D "uid=admin,ou=system" -w ${ADMIN_PASSWORD}
 fi
 
 enable_replication

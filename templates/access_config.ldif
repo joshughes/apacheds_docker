@@ -1,0 +1,49 @@
+
+dn: dc=${DOMAIN_NAME},dc=${DOMAIN_SUFFIX}
+changetype: modify
+add: administrativeRole
+administrativeRole: accessControlSpecificArea
+
+dn: cn=all_read,dc=${DOMAIN_NAME},dc=${DOMAIN_SUFFIX}
+changetype: add
+objectClass: subentry
+objectClass: top
+objectClass: accessControlSubentry
+prescriptiveACI: { identificationTag "all_read", precedence 0, authenticationLev
+ el simple, itemOrUserFirst userFirst: { userClasses { allUsers }, userPermiss
+ ions { { protectedItems { entry, allUserAttributeTypesAndValues }, grantsAndD
+ enials { grantFilterMatch, grantBrowse, grantRead, grantCompare, grantReturnD
+ N } }, { protectedItems { attributeType { userPassword } }, grantsAndDenials 
+ { denyInvoke, denyRemove, denyRename, denyExport, denyRead, denyDiscloseOnErr
+ or, denyReturnDN, denyModify, denyImport, denyCompare, denyFilterMatch, denyA
+ dd, denyBrowse } } } } }
+subtreeSpecification: { }
+cn: all_read
+
+dn: cn=changePassword,dc=${DOMAIN_NAME},dc=${DOMAIN_SUFFIX}
+changetype: add
+objectClass: subentry
+objectClass: top
+objectClass: accessControlSubentry
+prescriptiveACI: { identificationTag "changePassword", precedence 1, authenticationLevel
+  simple, itemOrUserFirst userFirst: { userClasses { thisEntry }, userPermissi
+ ons { { protectedItems { attributeType { userPassword } }, grantsAndDeni
+ als { grantModify, grantRemove, grantBrowse, grantRead, grantAdd } } } } }
+subtreeSpecification: { }
+cn: changePassword
+
+dn: cn=admin,dc=${DOMAIN_NAME},dc=${DOMAIN_SUFFIX}
+changetype: add
+objectClass: subentry
+objectClass: top
+objectClass: accessControlSubentry
+prescriptiveACI: { identificationTag "admin", precedence 2, authenticationLeve
+ l simple, itemOrUserFirst userFirst: { userClasses { userGroup { "cn=adminGroup,ou=groups,dc=${DOMAIN_NAME},dc=${DOMAIN_SUFFIX}" } }, userPermissions { { protectedItems { entry
+ , allUserAttributeTypes, allUserAttributeTypesAndValues }, grantsAndDenials {
+  grantRemove, grantDiscloseOnError, grantImport, grantRename, grantRead, gran
+ tModify, grantFilterMatch, grantBrowse, grantAdd, grantInvoke, grantCompare, 
+ grantReturnDN, grantExport } } } } }
+subtreeSpecification: { }
+cn: admin
+
+
